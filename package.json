@@ -1,0 +1,52 @@
+{
+  "name": "lobis-contracts",
+  "version": "1.0.0",
+  "description": "Smart Contracts for Lobis",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "@ethersproject/bignumber": "^5.5.0",
+    "@nomiclabs/hardhat-etherscan": "^2.1.7",
+    "@openzeppelin/contracts": "^3.4.0",
+    "@uniswap/v2-core": "^1.0.1",
+    "@uniswap/v2-periphery": "^1.1.0-beta.0",
+    "axios": "^0.24.0",
+    "dotenv": "^10.0.0",
+    "hardhat-deploy": "^0.9.10",
+    "hardhat-deploy-ethers": "^0.3.0-beta.11",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@openzeppelin/test-helpers": "^0.5.12",
+    "@types/mocha": "^9.0.0",
+    "chai": "^4.3.4",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.5.1",
+    "hardhat": "^2.5.0",
+    "hardhat-contract-sizer": "^2.1.1",
+    "prettier": "^2.3.2",
+    "prettier-plugin-solidity": "^1.0.0-beta.17",
+    "solhint": "^3.3.6",
+    "solhint-plugin-prettier": "0.0.5"
+  },
+  "scripts": {
+    "test": "npx hardhat test",
+    "compile": "npx hardhat compile",
+    "clean": "npx hardhat clean",
+    "start": "npx hardhat run scripts/deployAll.js",
+    "lint:sol": "solhint -f table contracts/**/*.sol"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LobisHQWorkspace/lobis-contracts.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/LobisHQWorkspace/lobis-contracts/issues"
+  },
+  "homepage": "https://github.com/LobisHQWorkspace/lobis-contracts#readme"
+}
