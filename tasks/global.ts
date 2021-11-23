@@ -140,9 +140,9 @@ task("configure-crv-bond", "Configure CRV bond").setAction(
   async (args, { ethers, deployments, getNamedAccounts }) => {
     const { deployer } = await getNamedAccounts();
 
-    const linkBondBCV = "700";
+    const linkBondBCV = "80";
     const bondVestingLength = "33230";
-    const minBondPrice = "576131";
+    const minBondPrice = "570264";
     const maxBondPayout = "500"; // 0.5% of totalSupply
     const bondFee = "5000";
     const bondFeePartner = "110";
@@ -153,7 +153,7 @@ task("configure-crv-bond", "Configure CRV bond").setAction(
     const bond = await deployments.get("TokenBondDepositoryCRV");
 
     const CRV = "0xD533a949740bb3306d119CC777fa900bA034cd52";
-    const FACTOR = 10000;
+    const FACTOR = 70000;
 
     await deployments.execute(
       "TokenBondDepositoryCRV",
@@ -177,6 +177,8 @@ task("configure-crv-bond", "Configure CRV bond").setAction(
       true
     );
 
+    console.log("setStaking");
+
     await deployments.execute(
       "LobisTreasury",
       { from: deployer },
@@ -185,6 +187,8 @@ task("configure-crv-bond", "Configure CRV bond").setAction(
       bond.address
     );
 
+    console.log("queue8");
+
     await deployments.execute(
       "LobisTreasury",
       { from: deployer },
@@ -192,6 +196,8 @@ task("configure-crv-bond", "Configure CRV bond").setAction(
       "8",
       bond.address
     );
+
+    console.log("toggle8");
 
     // set bond as reserve depositor
     await deployments.execute(
@@ -202,6 +208,8 @@ task("configure-crv-bond", "Configure CRV bond").setAction(
       bond.address
     );
 
+    console.log("queue0");
+
     await deployments.execute(
       "LobisTreasury",
       { from: deployer },
@@ -209,6 +217,8 @@ task("configure-crv-bond", "Configure CRV bond").setAction(
       "0",
       bond.address
     );
+
+    console.log("toggle0");
 
     // set CRV as reserve asset
     await deployments.execute(
@@ -219,6 +229,8 @@ task("configure-crv-bond", "Configure CRV bond").setAction(
       CRV
     );
 
+    console.log("queue2");
+
     await deployments.execute(
       "LobisTreasury",
       { from: deployer },
@@ -226,6 +238,8 @@ task("configure-crv-bond", "Configure CRV bond").setAction(
       "2",
       CRV
     );
+
+    console.log("toggle2");
 
     // set token factor
     await deployments.execute(
@@ -244,9 +258,9 @@ task("configure-fxs-bond", "Configure FXS bond").setAction(
   async (args, { ethers, deployments, getNamedAccounts }) => {
     const { deployer } = await getNamedAccounts();
 
-    const linkBondBCV = "400";
+    const linkBondBCV = "80";
     const bondVestingLength = "33230";
-    const minBondPrice = "155469";
+    const minBondPrice = "155038";
     const maxBondPayout = "500"; // 0.5% of totalSupply
     const bondFee = "5000";
     const bondFeePartner = "110";
@@ -281,6 +295,8 @@ task("configure-fxs-bond", "Configure FXS bond").setAction(
       true
     );
 
+    console.log("setStaking");
+
     await deployments.execute(
       "LobisTreasury",
       { from: deployer },
@@ -289,6 +305,8 @@ task("configure-fxs-bond", "Configure FXS bond").setAction(
       bond.address
     );
 
+    console.log("queue8");
+
     await deployments.execute(
       "LobisTreasury",
       { from: deployer },
@@ -296,6 +314,8 @@ task("configure-fxs-bond", "Configure FXS bond").setAction(
       "8",
       bond.address
     );
+
+    console.log("toggle8");
 
     // set bond as reserve depositor
     await deployments.execute(
@@ -306,6 +326,8 @@ task("configure-fxs-bond", "Configure FXS bond").setAction(
       bond.address
     );
 
+    console.log("queue8");
+
     await deployments.execute(
       "LobisTreasury",
       { from: deployer },
@@ -313,6 +335,8 @@ task("configure-fxs-bond", "Configure FXS bond").setAction(
       "0",
       bond.address
     );
+
+    console.log("toggle0");
 
     // set FXS as reserve asset
     await deployments.execute(
@@ -323,6 +347,8 @@ task("configure-fxs-bond", "Configure FXS bond").setAction(
       FXS
     );
 
+    console.log("queue2");
+
     await deployments.execute(
       "LobisTreasury",
       { from: deployer },
@@ -330,6 +356,8 @@ task("configure-fxs-bond", "Configure FXS bond").setAction(
       "2",
       FXS
     );
+
+    console.log("toggle2");
 
     // set token factor
     await deployments.execute(
