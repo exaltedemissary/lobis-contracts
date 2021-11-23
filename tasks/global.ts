@@ -387,7 +387,7 @@ task("configure-ohm-lobi-bond", "Configure OHM/LOBI bond").setAction(
     const stakingHelper = await deployments.get("StakingHelper");
     const bond = await deployments.get("TokenBondDepositoryOHMLOBI");
 
-    const SLP = "0x9e65abe26F72c7ccdf55E40fDCC947Cbc4f4e61e";
+    const SLP = "0x2734f4a846d1127f4b5d3bab261facfe51df1d9a";
     const FACTOR = 200000;
 
     await deployments.execute(
