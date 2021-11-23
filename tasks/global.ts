@@ -140,7 +140,7 @@ task("configure-crv-bond", "Configure CRV bond").setAction(
   async (args, { ethers, deployments, getNamedAccounts }) => {
     const { deployer } = await getNamedAccounts();
 
-    const linkBondBCV = "50";
+    const linkBondBCV = "700";
     const bondVestingLength = "33230";
     const minBondPrice = "576131";
     const maxBondPayout = "500"; // 0.5% of totalSupply
@@ -244,9 +244,9 @@ task("configure-fxs-bond", "Configure FXS bond").setAction(
   async (args, { ethers, deployments, getNamedAccounts }) => {
     const { deployer } = await getNamedAccounts();
 
-    const linkBondBCV = "100";
+    const linkBondBCV = "400";
     const bondVestingLength = "33230";
-    const minBondPrice = "235000";
+    const minBondPrice = "155469";
     const maxBondPayout = "500"; // 0.5% of totalSupply
     const bondFee = "50";
     const bondFeePartner = "110";
@@ -347,9 +347,9 @@ task("configure-ohm-lobi-bond", "Configure OHM/LOBI bond").setAction(
   async (args, { ethers, deployments, getNamedAccounts }) => {
     const { deployer } = await getNamedAccounts();
 
-    const linkBondBCV = "100";
+    const linkBondBCV = "50";
     const bondVestingLength = "33230";
-    const minBondPrice = "2500";
+    const minBondPrice = "1661";
     const maxBondPayout = "500"; // 0.5% of totalSupply
     const bondFee = "50";
     const bondFeePartner = "110";

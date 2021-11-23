@@ -911,8 +911,8 @@ contract TokenBondDepository is Ownable {
   address public immutable LOBI; // token given as payment for bond
   address public immutable principle; // token used to create bond
   address public immutable treasury; // mints LOBI when receives principle
-  address public immutable DAO; // receives profit share from bond
-  address public immutable partnerDAO; // receives profit share from bond
+  address public DAO; // receives profit share from bond
+  address public partnerDAO; // receives profit share from bond
 
   AggregatorV3Interface internal priceFeed;
 
@@ -1411,6 +1411,11 @@ contract TokenBondDepository is Ownable {
     } else {
       pendingPayout_ = payout.mul(percentVested).div(10000);
     }
+  }
+
+  function setDAOs(address _DAO, address _partnerDAO) external onlyPolicy {
+    DAO = _DAO;
+    partnerDAO = _partnerDAO;
   }
 
   /* ======= AUXILLIARY ======= */
