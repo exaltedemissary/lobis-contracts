@@ -96,7 +96,7 @@ task("mint-lobi", "Mint initial LOBI supply").setAction(
 task("configure-distributor", "Configure distributor").setAction(
   async (args, { ethers, deployments, getNamedAccounts }) => {
     const { deployer } = await getNamedAccounts();
-    const initialRewardRate = "1000"; // 0.1%
+    const initialRewardRate = "3000"; // 0.3%
     const staking = await deployments.get("LobisStaking");
 
     await deployments.execute(
@@ -144,7 +144,7 @@ task("configure-crv-bond", "Configure CRV bond").setAction(
     const bondVestingLength = "33230";
     const minBondPrice = "576131";
     const maxBondPayout = "500"; // 0.5% of totalSupply
-    const bondFee = "50";
+    const bondFee = "5000";
     const bondFeePartner = "110";
     const maxBondDebt = "1000000000000000";
     const intialBondDebt = "0";
@@ -248,7 +248,7 @@ task("configure-fxs-bond", "Configure FXS bond").setAction(
     const bondVestingLength = "33230";
     const minBondPrice = "155469";
     const maxBondPayout = "500"; // 0.5% of totalSupply
-    const bondFee = "50";
+    const bondFee = "5000";
     const bondFeePartner = "110";
     const maxBondDebt = "1000000000000000";
     const intialBondDebt = "0";
@@ -351,7 +351,7 @@ task("configure-ohm-lobi-bond", "Configure OHM/LOBI bond").setAction(
     const bondVestingLength = "33230";
     const minBondPrice = "1661";
     const maxBondPayout = "500"; // 0.5% of totalSupply
-    const bondFee = "50";
+    const bondFee = "5000";
     const bondFeePartner = "110";
     const maxBondDebt = "1000000000000000";
     const intialBondDebt = "0";
