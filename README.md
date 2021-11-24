@@ -1,6 +1,6 @@
 # Lobis Smart Contracts
 
-| Contract      | Field                                      |
+| Contract      | Address                                    |
 | ------------- | ------------------------------------------ |
 | LOBI          | 0xDEc41Db0c33F3F6f3cb615449C311ba22D418A8d |
 | sLOBI         | 0x8Ab17e2cd4F894F8641A31f99F673a5762F53c8e |
