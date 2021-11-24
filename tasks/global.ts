@@ -377,7 +377,7 @@ task("configure-ohm-lobi-bond", "Configure OHM/LOBI bond").setAction(
 
     const linkBondBCV = "50";
     const bondVestingLength = "33230";
-    const minBondPrice = "1661";
+    const minBondPrice = "1693";
     const maxBondPayout = "500"; // 0.5% of totalSupply
     const bondFee = "5000";
     const bondFeePartner = "110";
@@ -388,7 +388,7 @@ task("configure-ohm-lobi-bond", "Configure OHM/LOBI bond").setAction(
     const bond = await deployments.get("TokenBondDepositoryOHMLOBI");
 
     const SLP = "0x2734f4a846d1127f4b5d3bab261facfe51df1d9a";
-    const FACTOR = 200000;
+    const FACTOR = 1000000;
 
     await deployments.execute(
       "TokenBondDepositoryOHMLOBI",
@@ -412,6 +412,8 @@ task("configure-ohm-lobi-bond", "Configure OHM/LOBI bond").setAction(
       true
     );
 
+    console.log("staking");
+
     await deployments.execute(
       "LobisTreasury",
       { from: deployer },
@@ -420,6 +422,8 @@ task("configure-ohm-lobi-bond", "Configure OHM/LOBI bond").setAction(
       bond.address
     );
 
+    console.log("queue8");
+
     await deployments.execute(
       "LobisTreasury",
       { from: deployer },
@@ -427,6 +431,8 @@ task("configure-ohm-lobi-bond", "Configure OHM/LOBI bond").setAction(
       "8",
       bond.address
     );
+
+    console.log("toggle8");
 
     // set bond as liquidity depositor
     await deployments.execute(
@@ -437,6 +443,8 @@ task("configure-ohm-lobi-bond", "Configure OHM/LOBI bond").setAction(
       bond.address
     );
 
+    console.log("queue4");
+
     await deployments.execute(
       "LobisTreasury",
       { from: deployer },
@@ -444,6 +452,8 @@ task("configure-ohm-lobi-bond", "Configure OHM/LOBI bond").setAction(
       "4",
       bond.address
     );
+
+    console.log("toggle4");
 
     // set SLP as liquidity asset
     await deployments.execute(
@@ -454,6 +464,8 @@ task("configure-ohm-lobi-bond", "Configure OHM/LOBI bond").setAction(
       SLP
     );
 
+    console.log("queue5");
+
     await deployments.execute(
       "LobisTreasury",
       { from: deployer },
@@ -461,6 +473,8 @@ task("configure-ohm-lobi-bond", "Configure OHM/LOBI bond").setAction(
       "5",
       SLP
     );
+
+    console.log("toggle5");
 
     // set token factor
     await deployments.execute(
