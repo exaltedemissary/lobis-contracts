@@ -7,6 +7,8 @@ import "hardhat-deploy-ethers";
 
 import { HardhatUserConfig } from "hardhat/types";
 import "./tasks/global";
+import "./tasks/allocators";
+import "./tasks/migrator";
 
 require("dotenv").config();
 
@@ -28,6 +30,7 @@ const hhconfig: HardhatUserConfig = {
       },
       forking: {
         url: process.env.MAINNET_RPC,
+        //blockNumber: 13816308,
       },
     },
     mainnet: {

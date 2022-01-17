@@ -488,6 +488,821 @@ task("configure-ohm-lobi-bond", "Configure OHM/LOBI bond").setAction(
   }
 );
 
+task("configure-toke-bond", "Configure toke bond").setAction(
+  async (args, { ethers, deployments, getNamedAccounts }) => {
+    const { deployer } = await getNamedAccounts();
+
+    const linkBondBCV = "70";
+    const bondVestingLength = "33230";
+    const minBondPrice = "232896";
+    const maxBondPayout = "150"; // 0.15% of totalSupply
+    const bondFee = "5000";
+    const bondFeePartner = "110";
+    const maxBondDebt = "1000000000000000";
+    const intialBondDebt = "0";
+
+    const stakingHelper = await deployments.get("StakingHelper");
+    const bond = await deployments.get("TokenBondDepositoryTOKE2");
+
+    const TOKE = "0x2e9d63788249371f1dfc918a52f8d799f4a38c94";
+    const FACTOR = 140000;
+
+    await deployments.execute(
+      "TokenBondDepositoryTOKE2",
+      { from: deployer },
+      "initializeBondTerms",
+      linkBondBCV,
+      bondVestingLength,
+      minBondPrice,
+      maxBondPayout,
+      maxBondDebt,
+      intialBondDebt,
+      bondFee,
+      bondFeePartner
+    );
+
+    await deployments.execute(
+      "TokenBondDepositoryTOKE2",
+      { from: deployer },
+      "setStaking",
+      stakingHelper.address,
+      true
+    );
+
+    console.log("setStaking");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "queue",
+      "8",
+      bond.address
+    );
+
+    console.log("queue8");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "toggle",
+      "8",
+      bond.address
+    );
+
+    console.log("toggle8");
+
+    // set bond as reserve depositor
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "queue",
+      "0",
+      bond.address
+    );
+
+    console.log("queue8");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "toggle",
+      "0",
+      bond.address
+    );
+
+    console.log("toggle0");
+
+    // set FXS as reserve asset
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "queue",
+      "2",
+      TOKE
+    );
+
+    console.log("queue2");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "toggle",
+      "2",
+      TOKE
+    );
+
+    console.log("toggle2");
+
+    // set token factor
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "setTokenFactor",
+      TOKE,
+      FACTOR
+    );
+    console.log("toke bond configured");
+  }
+);
+
+task("configure-cvx-bond", "Configure CVX bond").setAction(
+  async (args, { ethers, deployments, getNamedAccounts }) => {
+    const { deployer } = await getNamedAccounts();
+
+    const linkBondBCV = "80";
+    const bondVestingLength = "33230";
+    const minBondPrice = "155038";
+    const maxBondPayout = "500"; // 0.5% of totalSupply
+    const bondFee = "5000";
+    const bondFeePartner = "110";
+    const maxBondDebt = "1000000000000000";
+    const intialBondDebt = "0";
+
+    const stakingHelper = await deployments.get("StakingHelper");
+    const bond = await deployments.get("TokenBondDepositoryFXS");
+
+    const FXS = "0x3432b6a60d23ca0dfca7761b7ab56459d9c964d0";
+    const FACTOR = 50000;
+
+    await deployments.execute(
+      "TokenBondDepositoryFXS",
+      { from: deployer },
+      "initializeBondTerms",
+      linkBondBCV,
+      bondVestingLength,
+      minBondPrice,
+      maxBondPayout,
+      maxBondDebt,
+      intialBondDebt,
+      bondFee,
+      bondFeePartner
+    );
+
+    await deployments.execute(
+      "TokenBondDepositoryFXS",
+      { from: deployer },
+      "setStaking",
+      stakingHelper.address,
+      true
+    );
+
+    console.log("setStaking");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "queue",
+      "8",
+      bond.address
+    );
+
+    console.log("queue8");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "toggle",
+      "8",
+      bond.address
+    );
+
+    console.log("toggle8");
+
+    // set bond as reserve depositor
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "queue",
+      "0",
+      bond.address
+    );
+
+    console.log("queue8");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "toggle",
+      "0",
+      bond.address
+    );
+
+    console.log("toggle0");
+
+    // set FXS as reserve asset
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "queue",
+      "2",
+      FXS
+    );
+
+    console.log("queue2");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "toggle",
+      "2",
+      FXS
+    );
+
+    console.log("toggle2");
+
+    // set token factor
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "setTokenFactor",
+      FXS,
+      FACTOR
+    );
+    console.log("fxs bond configured");
+  }
+);
+
+task("configure-gohm-bond", "Configure GOHM bond").setAction(
+  async (args, { ethers, deployments, getNamedAccounts }) => {
+    const { deployer } = await getNamedAccounts();
+
+    const linkBondBCV = "80";
+    const bondVestingLength = "33230";
+    const minBondPrice = "155038";
+    const maxBondPayout = "500"; // 0.5% of totalSupply
+    const bondFee = "5000";
+    const bondFeePartner = "110";
+    const maxBondDebt = "1000000000000000";
+    const intialBondDebt = "0";
+
+    const stakingHelper = await deployments.get("StakingHelper");
+    const bond = await deployments.get("TokenBondDepositoryFXS");
+
+    const FXS = "0x3432b6a60d23ca0dfca7761b7ab56459d9c964d0";
+    const FACTOR = 50000;
+
+    await deployments.execute(
+      "TokenBondDepositoryFXS",
+      { from: deployer },
+      "initializeBondTerms",
+      linkBondBCV,
+      bondVestingLength,
+      minBondPrice,
+      maxBondPayout,
+      maxBondDebt,
+      intialBondDebt,
+      bondFee,
+      bondFeePartner
+    );
+
+    await deployments.execute(
+      "TokenBondDepositoryFXS",
+      { from: deployer },
+      "setStaking",
+      stakingHelper.address,
+      true
+    );
+
+    console.log("setStaking");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "queue",
+      "8",
+      bond.address
+    );
+
+    console.log("queue8");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "toggle",
+      "8",
+      bond.address
+    );
+
+    console.log("toggle8");
+
+    // set bond as reserve depositor
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "queue",
+      "0",
+      bond.address
+    );
+
+    console.log("queue8");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "toggle",
+      "0",
+      bond.address
+    );
+
+    console.log("toggle0");
+
+    // set FXS as reserve asset
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "queue",
+      "2",
+      FXS
+    );
+
+    console.log("queue2");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "toggle",
+      "2",
+      FXS
+    );
+
+    console.log("toggle2");
+
+    // set token factor
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "setTokenFactor",
+      FXS,
+      FACTOR
+    );
+    console.log("fxs bond configured");
+  }
+);
+
+task("configure-ohm-lobi-bond-2", "Configure OHM/LOBI bond").setAction(
+  async (args, { ethers, deployments, getNamedAccounts }) => {
+    const { deployer } = await getNamedAccounts();
+
+    const linkBondBCV = "80";
+    const bondVestingLength = "33230";
+    const minBondPrice = "5427";
+    const maxBondPayout = "150"; // 0.15% of totalSupply
+    const bondFee = "5000";
+    const bondFeePartner = "110";
+    const maxBondDebt = "1000000000000000";
+    const intialBondDebt = "0";
+
+    const stakingHelper = await deployments.get("StakingHelper");
+    const bond = await deployments.get("TokenBondDepositoryOHMLOBI2");
+
+    const SLP = "0x193008EAAde86658Df8237A436261e23e3BcBbAa";
+    const FACTOR = 1000000;
+
+    await deployments.execute(
+      "TokenBondDepositoryOHMLOBI2",
+      { from: deployer },
+      "initializeBondTerms",
+      linkBondBCV,
+      bondVestingLength,
+      minBondPrice,
+      maxBondPayout,
+      maxBondDebt,
+      intialBondDebt,
+      bondFee,
+      bondFeePartner
+    );
+
+    await deployments.execute(
+      "TokenBondDepositoryOHMLOBI2",
+      { from: deployer },
+      "setStaking",
+      stakingHelper.address,
+      true
+    );
+
+    // console.log("staking");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "queue",
+      "8",
+      bond.address
+    );
+
+    console.log("queue8");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "toggle",
+      "8",
+      bond.address
+    );
+
+    // console.log("toggle8");
+
+    // set bond as liquidity depositor
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "queue",
+      "4",
+      bond.address
+    );
+
+    console.log("queue4");
+
+    await deployments.execute(
+      "LobisTreasury",
+      { from: deployer },
+      "toggle",
+      "4",
+      bond.address
+    );
+
+    // console.log("toggle4");
+
+    // // set SLP as liquidity asset
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "queue",
+    //   "5",
+    //   SLP
+    // );
+
+    // console.log("queue5");
+
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "toggle",
+    //   "5",
+    //   SLP
+    // );
+
+    // console.log("toggle5");
+
+    // // set token factor
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "setTokenFactor",
+    //   SLP,
+    //   FACTOR
+    // );
+    console.log("ohm/lobi bond configured");
+  }
+);
+
+task("configure-ohm-lobi-bond-3", "Configure OHM/LOBI bond").setAction(
+  async (args, { ethers, deployments, getNamedAccounts }) => {
+    const { deployer } = await getNamedAccounts();
+
+    const linkBondBCV = "80";
+    const bondVestingLength = "33230";
+    const minBondPrice = "5000";
+    const maxBondPayout = "25000"; // 25% of totalSupply
+    const bondFee = "5000";
+    const bondFeePartner = "0";
+    const maxBondDebt = "1000000000000000";
+    const intialBondDebt = "0";
+
+    const stakingHelper = await deployments.get("StakingHelper");
+    const bond = await deployments.get("TokenBondDepositoryOHMLOBI3");
+
+    const SLP = "0x193008EAAde86658Df8237A436261e23e3BcBbAa";
+    const FACTOR = 1000000;
+
+    await deployments.execute(
+      "TokenBondDepositoryOHMLOBI3",
+      { from: deployer },
+      "initializeBondTerms",
+      linkBondBCV,
+      bondVestingLength,
+      minBondPrice,
+      maxBondPayout,
+      maxBondDebt,
+      intialBondDebt,
+      bondFee,
+      bondFeePartner
+    );
+
+    await deployments.execute(
+      "TokenBondDepositoryOHMLOBI3",
+      { from: deployer },
+      "setStaking",
+      stakingHelper.address,
+      true
+    );
+
+    // console.log("staking");
+
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "queue",
+    //   "8",
+    //   bond.address
+    // );
+
+    // console.log("queue8");
+
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "toggle",
+    //   "8",
+    //   bond.address
+    // );
+
+    // // console.log("toggle8");
+
+    // // set bond as liquidity depositor
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "queue",
+    //   "4",
+    //   bond.address
+    // );
+
+    // console.log("queue4");
+
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "toggle",
+    //   "4",
+    //   bond.address
+    // );
+
+    // console.log("toggle4");
+
+    // // set SLP as liquidity asset
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "queue",
+    //   "5",
+    //   SLP
+    // );
+
+    // console.log("queue5");
+
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "toggle",
+    //   "5",
+    //   SLP
+    // );
+
+    // console.log("toggle5");
+
+    // // set token factor
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "setTokenFactor",
+    //   SLP,
+    //   FACTOR
+    // );
+    console.log("ohm/lobi bond configured");
+  }
+);
+
+task("configure-angle-bond", "Configure angle bond").setAction(
+  async (args, { ethers, deployments, getNamedAccounts }) => {
+    const { deployer } = await getNamedAccounts();
+
+    const linkBondBCV = "250";
+    const bondVestingLength = "33230";
+    const minBondPrice = "3150000";
+    const maxBondPayout = "150";
+    const bondFee = "5000";
+    const bondFeePartner = "110";
+    const maxBondDebt = "1000000000000000";
+    const intialBondDebt = "0";
+
+    const stakingHelper = await deployments.get("StakingHelper");
+    const bond = await deployments.get("TokenBondDepositoryANGLE");
+
+    const TOKE = "0x31429d1856ad1377a8a0079410b297e1a9e214c2";
+    const FACTOR = 140000;
+
+    await deployments.execute(
+      "TokenBondDepositoryANGLE",
+      { from: deployer },
+      "initializeBondTerms",
+      linkBondBCV,
+      bondVestingLength,
+      minBondPrice,
+      maxBondPayout,
+      maxBondDebt,
+      intialBondDebt,
+      bondFee,
+      bondFeePartner
+    );
+
+    await deployments.execute(
+      "TokenBondDepositoryANGLE",
+      { from: deployer },
+      "setStaking",
+      stakingHelper.address,
+      true
+    );
+
+    console.log("setStaking");
+
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "queue",
+    //   "8",
+    //   bond.address
+    // );
+
+    // console.log("queue8");
+
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "toggle",
+    //   "8",
+    //   bond.address
+    // );
+
+    // console.log("toggle8");
+
+    // // set bond as reserve depositor
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "queue",
+    //   "0",
+    //   bond.address
+    // );
+
+    // console.log("queue8");
+
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "toggle",
+    //   "0",
+    //   bond.address
+    // );
+
+    // console.log("toggle0");
+
+    // // set FXS as reserve asset
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "queue",
+    //   "2",
+    //   TOKE
+    // );
+
+    // console.log("queue2");
+
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "toggle",
+    //   "2",
+    //   TOKE
+    // );
+
+    // console.log("toggle2");
+
+    // // set token factor
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "setTokenFactor",
+    //   TOKE,
+    //   FACTOR
+    // );
+    console.log("angle bond configured");
+  }
+);
+
+task("configure-gohm-bond", "Configure gohm bond").setAction(
+  async (args, { ethers, deployments, getNamedAccounts }) => {
+    const { deployer } = await getNamedAccounts();
+
+    const linkBondBCV = "350";
+    const bondVestingLength = "33230";
+    const minBondPrice = "140";
+    const maxBondPayout = "150";
+    const bondFee = "5000";
+    const bondFeePartner = "110";
+    const maxBondDebt = "1000000000000000";
+    const intialBondDebt = "0";
+
+    const stakingHelper = await deployments.get("StakingHelper");
+
+    await deployments.execute(
+      "TokenBondDepositoryGOHM",
+      { from: deployer },
+      "initializeBondTerms",
+      linkBondBCV,
+      bondVestingLength,
+      minBondPrice,
+      maxBondPayout,
+      maxBondDebt,
+      intialBondDebt,
+      bondFee,
+      bondFeePartner
+    );
+
+    await deployments.execute(
+      "TokenBondDepositoryGOHM",
+      { from: deployer },
+      "setStaking",
+      stakingHelper.address,
+      true
+    );
+
+    console.log("setStaking");
+
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "queue",
+    //   "8",
+    //   bond.address
+    // );
+
+    // console.log("queue8");
+
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "toggle",
+    //   "8",
+    //   bond.address
+    // );
+
+    // console.log("toggle8");
+
+    // // set bond as reserve depositor
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "queue",
+    //   "0",
+    //   bond.address
+    // );
+
+    // console.log("queue8");
+
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "toggle",
+    //   "0",
+    //   bond.address
+    // );
+
+    // console.log("toggle0");
+
+    // // set FXS as reserve asset
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "queue",
+    //   "2",
+    //   TOKE
+    // );
+
+    // console.log("queue2");
+
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "toggle",
+    //   "2",
+    //   TOKE
+    // );
+
+    // console.log("toggle2");
+
+    // // set token factor
+    // await deployments.execute(
+    //   "LobisTreasury",
+    //   { from: deployer },
+    //   "setTokenFactor",
+    //   TOKE,
+    //   FACTOR
+    // );
+    console.log("angle bond configured");
+  }
+);
+
 task("create-sushi-pair", "Configure staking part of Lobis").setAction(
   async (args, { ethers, deployments, getNamedAccounts, network }) => {
     const { deployer } = await getNamedAccounts();
@@ -639,15 +1454,90 @@ task("configure", "Configure all").setAction(async (args, { run }) => {
   await run("feed-treasury");
 });
 
-task("travel", "travel").setAction(async (args, { run, ethers }) => {
+task("travel", "travel").setAction(async (args, { run, ethers, network }) => {
+  const DEPLOYER = "0xBa9ebdC5054A206b3D54D7cb7E7a5ABd2810F6fe";
+  const FXS_HOLDER = "0x1e84614543Ab707089CebB022122503462AC51b3";
+
+  const MAX_ALLOWANCE = BigNumber.from(2).pow(256).sub(1);
+
+  const ETH_100 = BigNumber.from(1000)
+    .mul(BigNumber.from(10).pow(18))
+    .toHexString();
+
+  await network.provider.send("hardhat_setBalance", [DEPLOYER, ETH_100]);
+  await network.provider.send("hardhat_setBalance", [FXS_HOLDER, ETH_100]);
+
+  const fxs = await ethers.getContractAt(
+    "DAI",
+    "0x3432b6a60d23ca0dfca7761b7ab56459d9c964d0"
+  );
+
+  const contract = await ethers.getContractAt(
+    "TokenBondDepository",
+    "0xAC0d4C05797F25EfD51B8062a6CeC0F9171f22cB"
+  );
+
+  await network.provider.request({
+    method: "hardhat_impersonateAccount",
+    params: [DEPLOYER],
+  });
+
+  await network.provider.request({
+    method: "hardhat_impersonateAccount",
+    params: [FXS_HOLDER],
+  });
+
+  const deployer = await ethers.provider.getSigner(DEPLOYER);
+  const fxsHolder = await ethers.provider.getSigner(FXS_HOLDER);
+
+  await fxs
+    .connect(fxsHolder)
+    .approve("0xAC0d4C05797F25EfD51B8062a6CeC0F9171f22cB", MAX_ALLOWANCE);
+
+  const bondPrice = await contract.bondPriceInUSD();
+  const OneHourBlock = 276;
+  const hours = 6;
+
+  console.log(`Bond Price before: ${bondPrice.toString() / 1e18} `);
+
+  const terms = await contract.terms();
+  const bcvBefore = terms.controlVariable;
+  console.log("bcvBefore", bcvBefore.toString());
+
+  let index = 0;
+  const bondNecessary = 15;
+
+  await (
+    await contract.connect(deployer).setAdjustment(false, 2, 50, 0)
+  ).wait();
+
+  while (index < bondNecessary) {
+    await (
+      await contract
+        .connect(fxsHolder)
+        .deposit("5000000000000000000", "1000000000000000000000", FXS_HOLDER)
+    ).wait();
+
+    index = index + 1;
+  }
+
+  console.log(`Bond ${bondNecessary} times`);
+
+  const terms2 = await contract.terms();
+  const bcvAfter = terms2.controlVariable;
+  console.log("bcvAfter", bcvAfter.toString());
+
   const current = await ethers.provider.getBlockNumber();
-  const last = current + 280;
+  const last = current + hours * OneHourBlock;
 
   let curr = current;
 
   while (curr < last) {
     await ethers.provider.send("evm_mine", []);
     curr = curr + 1;
-    console.log("remaining : ", last - curr);
   }
+  const bondPriceAfter = await contract.bondPriceInUSD();
+  console.log(
+    `Bond Price after ${hours}h: ${bondPriceAfter.toString() / 1e18} `
+  );
 });
